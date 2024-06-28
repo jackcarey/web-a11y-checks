@@ -59,15 +59,12 @@
             <td id="feat-forced-colors">?</td>
           </tr>
           <tr>
-            <td>Key Presses*</td>
+            <td>Key Presses *</td>
             <td id="feat-key-presses">?</td>
           </tr>
           <tr>
             <td>
-              <a
-                href="https://developer.mozilla.org/en-US/docs/Web/API/Window/devicePixelRatio#monitoring_screen_resolution_or_zoom_level_changes">
-                Magnification
-              </a>
+                Magnification **
             </td>
             <td id="feat-magnification">?</td>
           </tr>
@@ -76,6 +73,7 @@
           <tr>
             <td colspan="2" id="watched-keys"></td>
           </tr>
+          <tr>** Zoom levels are somewhat unreliable to detect. Display, OS, browser settings and tools can impact results.</tr>
         </tfoot>
       </table>
     </main>
@@ -126,6 +124,7 @@
           Zoom: zoom,
           'Zoom Changed': zoomChanged ? 'Yes' : 'No',
           'Has Resized': hasResized ? 'Yes' : 'No',
+          result: pixelRadioChanged || zoomChanged,
         };
       }
       function updateDOM() {
@@ -143,6 +142,7 @@
         ).innerHTML = `<ul>${Object.entries(magnificationData())
           .sort()
           .map(([key, value]) => {
+            if(key=='result') return `<li>Result: ${value ? `✅ Changed`: `❌ Not changed`}</li>`;
             return `<li>${key}: ${value}</li>`;
           })
           .join('\n')}</ul>`;
